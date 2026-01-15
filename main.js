@@ -7,6 +7,10 @@ const cellHeight = canvas.height / numRows;
 const centerRow = Math.floor(numRows / 2) * cellHeight;
 const centerCol = Math.floor(numCols / 2) * cellWidth;
 let initialSnakeSize = [0, 1, 2];
+let food = {
+  col: 9,
+  row: 7,
+}
 
 function drawScreen() {
   for (let row = 0; row < numRows; row++) {
@@ -27,17 +31,34 @@ function drawScreen() {
   }
 }
 
+function drawApple(food) {
+  const x = food.col * cellWidth + cellWidth / 2
+  const y = food.row * cellHeight + cellHeight / 2
+  let randomPositionX = Math.floor(Math.random() * numCols);
+  let randomPositionY = Math.floor(Math.random() * numRows);
+  let firstApple = true;
+
+  ctx.beginPath();
+  ctx.arc(x, y, cellWidth / 2.3, 0, 2 * Math.PI);
+  ctx.fillStyle = "red";
+  ctx.fill();
+}
+
 function drawSnake() {
   initialSnakeSize.forEach(i => {
+    const radius = 5;
     ctx.fillStyle = "#ADD8E6";
     x = centerCol - (i * cellWidth);
     y = centerRow;
 
-    ctx.fillRect(x, y, cellWidth, cellHeight);
+    ctx.beginPath();
+    ctx.roundRect(x, y, cellWidth, cellHeight, radius);
+    ctx.fill();
   });
 }
 
 
 drawScreen();
 drawSnake();
+drawApple(food);
 
